@@ -7,8 +7,13 @@
       "longitude": -97.1331,
       "max_volume": 1000,
       "type": "premium",
-      "radius_meters": 6.32,
-      "radius_collection_factor": 948
+      "radius_meters": 0.45720000000000005,
+      "radius_feet": 1.5,
+      "radius_inches": 18.0,
+      "height_feet": 5.0,
+      "height_inches": 59.95,
+      "max_height_feet": 5.0,
+      "max_height_inches": 59.95
     },
     {
       "id": "cauldron_002",
@@ -17,8 +22,13 @@
       "longitude": -97.1325,
       "max_volume": 800,
       "type": "standard",
-      "radius_meters": 5.66,
-      "radius_collection_factor": 849
+      "radius_meters": 0.45720000000000005,
+      "radius_feet": 1.5,
+      "radius_inches": 18.0,
+      "height_feet": 4.0,
+      "height_inches": 47.96,
+      "max_height_feet": 4.0,
+      "max_height_inches": 47.96
     },
     {
       "id": "cauldron_003",
@@ -27,8 +37,13 @@
       "longitude": -97.1338,
       "max_volume": 1200,
       "type": "premium",
-      "radius_meters": 6.93,
-      "radius_collection_factor": 1040
+      "radius_meters": 0.45720000000000005,
+      "radius_feet": 1.5,
+      "radius_inches": 18.0,
+      "height_feet": 6.0,
+      "height_inches": 71.94,
+      "max_height_feet": 6.0,
+      "max_height_inches": 71.94
     },
     {
       "id": "cauldron_004",
@@ -37,8 +52,13 @@
       "longitude": -97.1318,
       "max_volume": 750,
       "type": "standard",
-      "radius_meters": 5.48,
-      "radius_collection_factor": 822
+      "radius_meters": 0.45720000000000005,
+      "radius_feet": 1.5,
+      "radius_inches": 18.0,
+      "height_feet": 3.75,
+      "height_inches": 44.96,
+      "max_height_feet": 3.75,
+      "max_height_inches": 44.96
     },
     {
       "id": "cauldron_005",
@@ -47,8 +67,13 @@
       "longitude": -97.1345,
       "max_volume": 900,
       "type": "premium",
-      "radius_meters": 6.0,
-      "radius_collection_factor": 900
+      "radius_meters": 0.45720000000000005,
+      "radius_feet": 1.5,
+      "radius_inches": 18.0,
+      "height_feet": 4.5,
+      "height_inches": 53.96,
+      "max_height_feet": 4.5,
+      "max_height_inches": 53.96
     },
     {
       "id": "cauldron_006",
@@ -57,8 +82,13 @@
       "longitude": -97.131,
       "max_volume": 650,
       "type": "standard",
-      "radius_meters": 5.1,
-      "radius_collection_factor": 765
+      "radius_meters": 0.45720000000000005,
+      "radius_feet": 1.5,
+      "radius_inches": 18.0,
+      "height_feet": 3.25,
+      "height_inches": 38.97,
+      "max_height_feet": 3.25,
+      "max_height_inches": 38.97
     },
     {
       "id": "cauldron_007",
@@ -67,8 +97,13 @@
       "longitude": -97.1352,
       "max_volume": 1100,
       "type": "premium",
-      "radius_meters": 6.63,
-      "radius_collection_factor": 994
+      "radius_meters": 0.45720000000000005,
+      "radius_feet": 1.5,
+      "radius_inches": 18.0,
+      "height_feet": 5.5,
+      "height_inches": 65.95,
+      "max_height_feet": 5.5,
+      "max_height_inches": 65.95
     },
     {
       "id": "cauldron_008",
@@ -77,8 +112,13 @@
       "longitude": -97.1305,
       "max_volume": 700,
       "type": "standard",
-      "radius_meters": 5.29,
-      "radius_collection_factor": 794
+      "radius_meters": 0.45720000000000005,
+      "radius_feet": 1.5,
+      "radius_inches": 18.0,
+      "height_feet": 3.5,
+      "height_inches": 41.97,
+      "max_height_feet": 3.5,
+      "max_height_inches": 41.97
     },
     {
       "id": "cauldron_009",
@@ -87,8 +127,13 @@
       "longitude": -97.136,
       "max_volume": 950,
       "type": "premium",
-      "radius_meters": 6.16,
-      "radius_collection_factor": 924
+      "radius_meters": 0.45720000000000005,
+      "radius_feet": 1.5,
+      "radius_inches": 18.0,
+      "height_feet": 4.75,
+      "height_inches": 56.95,
+      "max_height_feet": 4.75,
+      "max_height_inches": 56.95
     },
     {
       "id": "cauldron_010",
@@ -97,8 +142,13 @@
       "longitude": -97.13,
       "max_volume": 850,
       "type": "standard",
-      "radius_meters": 5.83,
-      "radius_collection_factor": 874
+      "radius_meters": 0.45720000000000005,
+      "radius_feet": 1.5,
+      "radius_inches": 18.0,
+      "height_feet": 4.25,
+      "height_inches": 50.96,
+      "max_height_feet": 4.25,
+      "max_height_inches": 50.96
     },
     {
       "id": "cauldron_011",
@@ -107,8 +157,13 @@
       "longitude": -97.1368,
       "max_volume": 1050,
       "type": "premium",
-      "radius_meters": 6.48,
-      "radius_collection_factor": 972
+      "radius_meters": 0.45720000000000005,
+      "radius_feet": 1.5,
+      "radius_inches": 18.0,
+      "height_feet": 5.25,
+      "height_inches": 62.95,
+      "max_height_feet": 5.25,
+      "max_height_inches": 62.95
     },
     {
       "id": "cauldron_012",
@@ -117,8 +172,13 @@
       "longitude": -97.1295,
       "max_volume": 600,
       "type": "standard",
-      "radius_meters": 4.9,
-      "radius_collection_factor": 735
+      "radius_meters": 0.45720000000000005,
+      "radius_feet": 1.5,
+      "radius_inches": 18.0,
+      "height_feet": 3.0,
+      "height_inches": 35.97,
+      "max_height_feet": 3.0,
+      "max_height_inches": 35.97
     }
   ],
   "enchanted_market": {

@@ -158,7 +158,7 @@
             `;
             
             // Create annotations
-            const maxVol = cauldron.max_volume;
+            const maxHeightFeet = cauldron.max_height_feet || cauldron.height_feet;
             const annotations = { annotations: {} };
             
             cauldronCollections.forEach((coll, idx) => {
@@ -275,7 +275,7 @@
                 data: {
                     labels: timestamps,
                     datasets: [{
-                        label: 'Level (L)',
+                        label: 'Level (ft)',
                         data: levels,
                         borderColor: 'rgb(139, 69, 19)',
                         backgroundColor: 'rgba(139, 69, 19, 0.1)',
@@ -285,7 +285,7 @@
                         fill: true
                     }, {
                         label: 'Max Capacity',
-                        data: Array(timestamps.length).fill(maxVol),
+                        data: Array(timestamps.length).fill(maxHeightFeet),
                         borderColor: 'rgb(255, 0, 0)',
                         borderDash: [5, 5],
                         borderWidth: 1.5,
@@ -304,7 +304,7 @@
                                 label: function(context) {
                                     let label = context.dataset.label || '';
                                     if (label) { label += ': '; }
-                                    label += context.parsed.y.toFixed(1) + 'L';
+                                    label += context.parsed.y.toFixed(2) + ' ft';
                                     return label;
                                 }
                             }
@@ -314,8 +314,8 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            max: maxVol * 1.1,
-                            title: { display: true, text: 'Potion Level (L)' },
+                            max: maxHeightFeet * 1.1,
+                            title: { display: true, text: 'Potion Level (feet)' },
                             ticks: { font: { size: 10 } }
                         },
                         x: {

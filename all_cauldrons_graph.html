@@ -85,7 +85,7 @@ function createCauldronGraph(cauldron) {
     const collections = transportTickets.filter(t => t.cauldron_id === cauldron.id);
     const countP = document.createElement('p');
     countP.style.cssText = 'font-size: 11px; color: #666; margin: 5px 0 0 0;';
-    countP.textContent = `${collections.length} collections | Max: ${cauldron.max_volume}L`;
+    countP.textContent = `${collections.length} collections | Max: ${cauldron.max_height_feet || cauldron.height_feet}ft`;
     card.appendChild(countP);
     
     document.getElementById('graphsGrid').appendChild(card);
@@ -141,7 +141,7 @@ function createCauldronGraph(cauldron) {
         });
     
     // Create annotations
-    const maxVol = cauldron.max_volume;
+    const maxHeightFeet = cauldron.max_height_feet || cauldron.height_feet;
     const annotations = { annotations: {} };
     
     cauldronCollections.forEach((coll, idx) => {
@@ -253,7 +253,7 @@ function createCauldronGraph(cauldron) {
         data: {
             labels: timestamps,
             datasets: [{
-                label: 'Level (L)',
+                label: 'Level (ft)',
                 data: levels,
                 borderColor: 'rgb(139, 69, 19)',
                 backgroundColor: 'rgba(139, 69, 19, 0.1)',
@@ -263,7 +263,7 @@ function createCauldronGraph(cauldron) {
                 fill: true
             }, {
                 label: 'Max Capacity',
-                data: Array(timestamps.length).fill(maxVol),
+                data: Array(timestamps.length).fill(maxHeightFeet),
                 borderColor: 'rgb(255, 0, 0)',
                 borderDash: [5, 5],
                 borderWidth: 1,
@@ -282,7 +282,7 @@ function createCauldronGraph(cauldron) {
                         label: function(context) {
                             let label = context.dataset.label || '';
                             if (label) { label += ': '; }
-                            label += context.parsed.y.toFixed(1) + 'L';
+                            label += context.parsed.y.toFixed(2) + ' ft';
                             return label;
                         }
                     }
@@ -292,8 +292,8 @@ function createCauldronGraph(cauldron) {
             scales: {
                 y: {
                     beginAtZero: true,
-                    max: maxVol * 1.1,
-                    title: { display: true, text: 'Level (L)', font: { size: 10 } },
+                    max: maxHeightFeet * 1.1,
+                    title: { display: true, text: 'Level (ft)', font: { size: 10 } },
                     ticks: { font: { size: 9 } }
                 },
                 x: {

@@ -20,7 +20,6 @@ public class DataController : ControllerBase
     }
 
     [HttpGet]
-    [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any, VaryByHeader = "Accept-Encoding", VaryByQueryKeys = ["*"])]
     public IEnumerable<HistoricalDataDto> Get([FromQuery(Name = "start_date")] long? start, [FromQuery(Name = "end_date")] long? end)
     {
         DateTimeOffset? startTime = null;

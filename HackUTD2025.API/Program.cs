@@ -1,15 +1,25 @@
+using System.IO.Compression;
 using System.Text.Json;
 
 using HackUTD2025.API.Dtos;
+using HackUTD2025.API.Utilities;
+
+using Microsoft.AspNetCore.ResponseCompression;
+
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSerilog((services, loggerConfiguration) => loggerConfiguration
+    .WriteTo.Async(a => a.Console())
+    .Enrich.FromLogContext());
 
 var data = await ReadHistoricalDataAsync();
 var metadata = await ReadMetadataAsync();
 var dtos = await ReadDataAsync();
 var tickets = await ReadTicketDataAsync();
 
-var graph = new DirectedGraph([.. dtos.cauldrons, dtos.enchanted_market], dtos.network.edges);
+var graph = new NodeGraph([.. dtos.cauldrons, dtos.enchanted_market], dtos.network.edges);
 
 builder.Services.AddSingleton(graph);
 builder.Services.AddSingleton(tickets);
@@ -27,26 +37,55 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddResponseCompression(opts => {
+    opts.EnableForHttps = true; // compress over HTTPS
+    opts.Providers.Add<BrotliCompressionProvider>();
+    opts.Providers.Add<GzipCompressionProvider>();
+
+    // Include common JSON/text types; static files inherit too if middleware order allows.
+    opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat([
+        "application/json",
+        "text/html"
+    ]);
+});
+builder.Services.Configure<BrotliCompressionProviderOptions>(o => {
+    o.Level = CompressionLevel.Optimal; // fastest small payloads: Fastest
+});
+builder.Services.Configure<GzipCompressionProviderOptions>(o => {
+    o.Level = CompressionLevel.Fastest;
+});
+
+
+builder.Logging.AddSerilog();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 
-app.MapOpenApi();
+// Diagnostic logging middleware - run early so all requests are visible.
+app.Use(async (context, next) => {
+    app.Logger.LogInformation("Received request: {Method} {Path}{Query}", context.Request.Method, context.Request.Path, context.Request.QueryString);
+    await next();
+});
+
+app.UseResponseCompression();
+
+app.UseRouting();
+
 app.UseSwagger();
 app.UseSwaggerUI(c => {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "HackUTD2025.API V1");
 });
+app.MapOpenApi();
 
-
-app.UseRouting();
+app.UseDefaultFiles(new DefaultFilesOptions
+{
+    DefaultFileNames = { "index.html" }
+});
+app.UseStaticFiles();
 
 app.MapControllers();
 
-app.Use((context, next) => {
-    app.Logger.LogInformation("Received request: {Method} {Path}{Query}", context.Request.Method, context.Request.Path, context.Request.QueryString);
-    return next();
-});
-app.UseResponseCaching();
+app.MapFallbackToFile("index.html");
 
 app.Run();
 

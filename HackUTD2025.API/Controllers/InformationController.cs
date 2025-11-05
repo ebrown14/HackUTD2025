@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HackUTD2025.API.Controllers;
 
-public class InformationController : Controller
+[Route("api/[controller]")]
+public class InformationController : ControllerBase
 {
     private readonly ILogger<InformationController> _logger;
     private readonly NetworkDto _networkDto;

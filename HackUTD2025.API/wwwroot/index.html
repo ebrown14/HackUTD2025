@@ -1,389 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/index.js" defer></script>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>CauldronWatch: The Potion Flow Monitoring Challenge</title>
-    <meta name="description" content="Real-time Potion Flow Monitoring Dashboard challenge: track cauldrons, detect discrepancies, and optimize courier routes." />
-    <meta property="og:title" content="CauldronWatch: The Potion Flow Monitoring Challenge" />
-    <meta property="og:description" content="Build a real-time potion monitoring dashboard, detect ticket discrepancies, and optimize routes." />
-    <meta name="theme-color" content="#5b21b6" />
-    <style>
-        :root {
-            --bg: #0b1020;
-            --panel: #0f172a;
-            --panel-2: #0b1226;
-            --text: #e5e7eb;
-            --muted: #9ca3af;
-            --brand: #8b5cf6;
-            --accent: #22d3ee;
-            --ok: #34d399;
-            --warn: #f59e0b;
-            --danger: #ef4444;
-            --ring: rgba(139,92,246,.3);
-            --shadow: 0 10px 30px rgba(0,0,0,.35);
-            --radius: 16px;
-        }
-
-        @media (prefers-color-scheme: light) {
-            :root {
-                --bg: #f8fafc;
-                --panel: #ffffff;
-                --panel-2: #f1f5f9;
-                --text: #0f172a;
-                --muted: #475569;
-                --ring: rgba(99,102,241,.25);
-            }
-
-            body {
-                background: linear-gradient(180deg,#f8fafc 0%,#eef2ff 100%);
-            }
-        }
-
-        * {
-            box-sizing: border-box
-        }
-
-        html, body {
-            height: 100%
-        }
-
-        body {
-            margin: 0;
-            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji','Segoe UI Emoji';
-            color: var(--text);
-            background: radial-gradient(1200px 600px at 10% -10%, rgba(34,211,238,0.12), transparent 60%), radial-gradient(1000px 700px at 110% 10%, rgba(139,92,246,0.12), transparent 60%), linear-gradient(180deg, #0b1020 0%, #0b1020 100%);
-        }
-
-        a {
-            color: var(--accent);
-            text-decoration: none
-        }
-
-            a:hover {
-                text-decoration: underline
-            }
-
-        .container {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 24px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 32px 20px 80px;
-        }
-
-        @media (max-width: 960px) {
-            .container {
-                grid-template-columns: 1fr
-            }
-
-            .toc {
-                position: static
-            }
-        }
-
-        header.hero {
-            grid-column: 1/-1;
-            background: linear-gradient(135deg, rgba(139,92,246,.15), rgba(34,211,238,.10));
-            border: 1px solid rgba(255,255,255,.06);
-            border-radius: var(--radius);
-            padding: 32px;
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: .5rem;
-            background: rgba(34,211,238,.12);
-            color: var(--accent);
-            border: 1px solid rgba(34,211,238,.3);
-            padding: 6px 10px;
-            border-radius: 999px;
-            font-weight: 600;
-            font-size: 12px;
-            letter-spacing: .3px;
-            text-transform: uppercase;
-        }
-
-        .hero h1 {
-            margin: 14px 0 8px;
-            font-size: clamp(28px, 4vw, 44px);
-            line-height: 1.1;
-        }
-
-        .hero p {
-            color: var(--muted);
-            max-width: 70ch;
-            margin: 0
-        }
-
-        .cta-row {
-            margin-top: 18px;
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 16px;
-            border-radius: 12px;
-            border: 1px solid transparent;
-            background: linear-gradient(180deg, #7c3aed, #5b21b6);
-            color: white;
-            font-weight: 700
-        }
-
-            .btn.secondary {
-                background: transparent;
-                border-color: rgba(255,255,255,.12);
-                color: var(--text)
-            }
-
-        .toc {
-            position: sticky;
-            top: 20px;
-            background: linear-gradient(180deg,var(--panel),var(--panel-2));
-            border: 1px solid rgba(255,255,255,.08);
-            border-radius: var(--radius);
-            padding: 18px 16px;
-            box-shadow: var(--shadow);
-            height: max-content;
-        }
-
-            .toc h3 {
-                margin: 6px 0 10px;
-                font-size: 14px;
-                color: var(--muted);
-                text-transform: uppercase;
-                letter-spacing: .12em
-            }
-
-            .toc a {
-                display: block;
-                padding: 8px 10px;
-                border-radius: 10px;
-                color: var(--text);
-            }
-
-                .toc a.current {
-                    background: rgba(139,92,246,.16);
-                    outline: 1px solid var(--ring)
-                }
-
-        main.article {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-
-        section.panel {
-            background: linear-gradient(180deg,var(--panel),var(--panel-2));
-            border: 1px solid rgba(255,255,255,.08);
-            border-radius: var(--radius);
-            padding: 24px 26px;
-            box-shadow: var(--shadow);
-        }
-
-        h2 {
-            margin: .2rem 0 0.5rem;
-            font-size: clamp(20px,3.2vw,28px)
-        }
-
-        h3 {
-            margin: 1.2rem 0 .5rem;
-            font-size: clamp(18px,2.6vw,22px)
-        }
-
-        p {
-            margin: .4rem 0 1rem
-        }
-
-        ul {
-            margin: .2rem 0 1rem 1.1rem
-        }
-
-        li {
-            margin: .4rem 0
-        }
-
-        .callout {
-            border-left: 4px solid var(--brand);
-            background: rgba(139,92,246,.10);
-            padding: 14px 16px;
-            border-radius: 10px;
-        }
-
-        .footer {
-            grid-column: 1/-1;
-            opacity: .8;
-            text-align: center;
-            margin-top: 28px;
-            color: var(--muted);
-        }
-
-        .anchor {
-            opacity: .0;
-            margin-left: .4rem;
-            font-size: .9rem;
-            transition: opacity .2s;
-        }
-
-        h2:hover .anchor, h3:hover .anchor {
-            opacity: .6
-        }
-
-        code.inline {
-            background: rgba(148,163,184,.15);
-            padding: .2rem .4rem;
-            border-radius: 6px
-        }
-
-        .hero-image {
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .hero-image img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-        }
-
-        .btn:hover {
-            filter: brightness(1.15);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
-            transition: all 0.15s ease;
-        }
-    </style>
+    <meta name="description"
+          content="Real-time Potion Flow Monitoring Dashboard challenge: track cauldrons, detect discrepancies, and optimize courier routes."/>
+    <meta property="og:title" content="CauldronWatch: The Potion Flow Monitoring Challenge"/>
+    <meta property="og:description"
+          content="Build a real-time potion monitoring dashboard, detect ticket discrepancies, and optimize routes."/>
+    <meta name="theme-color" content="#5b21b6"/>
 </head>
 <body>
-    <div class="container">
-        <header class="hero">
-            <div class="hero-image">
-                <img src="image.png" alt="CauldronWatch Banner" />
-            </div>
-            <span class="badge">🧪 Challenge</span>
-            <h1>CauldronWatch: The Potion Flow Monitoring Challenge</h1>
-            <p>Build a real-time dashboard that tracks potion levels, correlates transport tickets with drain events, and flags discrepancies across an enchanted network of cauldrons.</p>
-            <div class="cta-row">
-                <a class="btn" href="#expected-output">See requirements</a>
-                <a class="btn secondary" href="#bonus-output">Bonus goals</a>
-            </div>
-        </header>
 
-        <aside class="toc" id="toc">
-            <h3>On this page</h3>
-            <nav id="toc-links"></nav>
-        </aside>
-
-        <main class="article">
-            <section class="panel" id="overview">
-                <h2>Overview <a class="anchor" href="#overview">🧙🏽‍♀️</a></h2>
-                <p>Deep within Poyo's Potion Factory, dozens of enchanted cauldrons bubble away, collecting potions from brewing towers spread across the facility. Each cauldron fills at its own pace before courier witches swoop in to haul the precious brews to the Enchanted Market. Every collection is logged using Potion Transport Tickets detailing how much potion was collected and when the journey finished.</p>
-                <p>But lately, something's amiss! Potion volumes don't quite match the transport tickets, and rumors of unlogged potion drains are spreading through the halls.</p>
-                <p>Your task is to develop a real-time Potion Flow Monitoring Dashboard that tracks potion levels across all cauldrons, identifies collection events, and checks the Potion Transport Tickets to detect any missing or unlogged potion. The system should automatically flag inconsistencies, identify suspicious activity, and help ensure every drop of potion is properly accounted for.</p>
-                <p>You'll receive historical and real-time cauldron level data, Potion Transport Ticket records, and a map of the potion network linking each cauldron to the Enchanted Market. Use these to visualize the entire operation, monitor live potion flows, and test your real-time detection logic.</p>
-                <div class="callout">
-                    <strong>✨ Bonus:</strong> Extend your system to forecast brew levels and optimize courier routes — helping witches plan efficient pickup schedules, prevent cauldron overflows, and keep the potion trade flowing smoothly across the realm.
-                </div>
-            </section>
-
-            <section class="panel" id="additional-information">
-                <h2>Additional Information <a class="anchor" href="#additional-information">📌</a></h2>
-
-                <h3 id="input-data">Input Data <a class="anchor" href="#input-data">#</a></h3>
-                <ul>
-                    <li><strong>List of Cauldrons</strong>: Each cauldron has a unique ID, a name, a latitude/longitude, and a maximum storage volume.</li>
-                    <li><strong>Potion Network Map</strong>: Includes all cauldrons as nodes with their locations, and edges representing broomstick travel paths with travel times. The map also contains the Enchanted Market. This map is used to find an optimized schedule for the witches to ensure no cauldron ever overflows, accounting for the travel time between cauldrons and to the Enchanted Market.</li>
-                    <li><strong>Potion Transport Tickets</strong>: Tickets are received at the end of each day and contain only a date. Each ticket records the amount of potion collected and transported.</li>
-                    <li><strong>Historical Cauldron Level Data</strong>: Minute-by-minute potion volumes for each cauldron, covering approximately one week. This data shows how potion levels change over time, including the effects of continuous filling and periodic draining.</li>
-                </ul>
-            </section>
-
-            <section class="panel" id="expected-output">
-                <h2>Expected Output <a class="anchor" href="#expected-output">🎯</a></h2>
-                <ul>
-                    <li><strong>Visualization of the Potion Network</strong>: A map displaying all cauldrons, potion levels, and the sales point.</li>
-                    <li><strong>Historic Data Playback</strong>: Ability to review historical potion levels and transport ticket activity.</li>
-                   <!-- <li><strong>Real-Time Monitoring</strong>: Live feed of potion levels in all cauldrons as new data arrives.</li> -->
-                    <li><strong>Discrepancy Detection</strong>: Since tickets arrive at the end of the day with only dates (no timestamps), you must match tickets to the actual drain events that occurred during that day. Verify that the volumes on the tickets match the drains for that day by comparing ticket volumes (which include level change + potion generated during drain) to the actual drain events recorded in the historical data. Identify any tickets that appear to have transported more or less than what left the cauldron, highlighting potential unlogged potion drains or discrepancies.</li>
-                </ul>
-            </section>
-
-            <section class="panel" id="considerations">
-                <h2>Things to Keep in Mind <a class="anchor" href="#considerations">🤔</a></h2>
-                <ul>
-                    <li><strong>Continuous Potion Flow During Drainage</strong>: While potion is being drained from a cauldron, more potion continues to accumulate into the tank at the cauldron's fill rate. This means the total volume collected includes both the level change and the potion generated during the drain period.</li>
-                    <li><strong>Unload Time</strong>: Witches take 15 minutes to unload each time they arrive at the market. This must be accounted for when scheduling multiple trips.</li>
-                    <li><strong>Per-Cauldron Rates</strong>: Each cauldron has its own unique fill rate and drain rate, which can differ significantly between cauldrons. These rates determine how quickly potion accumulates and how quickly it can be collected.</li>
-                </ul>
-            </section>
-
-            <section class="panel" id="bonus-output">
-                <h2>Bonus Output <a class="anchor" href="#bonus-output">🌟🥇</a></h2>
-                <p><strong>Optimized Courier Routes &amp; Forecasting</strong>: Using the potion network map, determine what is the minimum number of witches that can run the whole operation. Predict cauldron fill levels and generate efficient courier routes that prevent overflow while accounting for all these factors. Create an optimal schedule for the minimum number of witches required to maintain the entire operation. Visualize these routes on the map to ensure timely deliveries and prevent cauldron overflow.</p>
-            </section>
-
-            <section class="panel" style="text-align:center;">
-	            <a class="btn" href="/swagger" style="margin-top:1rem;">🚀 Get Started Here</a>
-            </section>
-        </main>
-
-        <div class="footer">
-            <p>© <strong>EOG Resources, Inc.</strong> • <span id="year"></span> CauldronWatch • Built for rapid prototyping and hackathon fun.</p>
-        </div>
+<div class="container">
+    <div class="svg-banner">
+        <img src="STANDARD_STACKED_LOGO_WHITE.svg" alt="CauldronWatch Logo"/>
     </div>
+    <header class="hero">
+        <div class="hero-image">
+            <img src="image.png" alt="CauldronWatch Banner"/>
+        </div>
+        <span class="badge">🧪 Challenge</span>
+        <h1>CauldronWatch: The Potion Flow Monitoring Challenge</h1>
+        <p>Build a real-time dashboard that tracks potion levels, correlates transport tickets with drain events, and
+            flags discrepancies across an enchanted network of cauldrons.</p>
+        <div class="cta-row">
+            <a class="btn" href="#expected-output">See requirements</a>
+            <a class="btn secondary" href="#bonus-output">Bonus goals</a>
+        </div>
+    </header>
 
-    <script>
-        // Dynamic year
-        document.getElementById('year').textContent = new Date().getFullYear();
+    <aside class="toc" id="toc">
+        <h3>On this page</h3>
+        <nav id="toc-links"></nav>
+    </aside>
 
-        // Build a simple TOC from h2 sections
-        const toc = document.getElementById('toc-links');
-        const sections = Array.from(document.querySelectorAll('main .panel'));
-        sections.forEach(sec => {
-            const h2 = sec.querySelector('h2');
-            if (!h2 || !sec.id) return;
-            const a = document.createElement('a');
-            a.href = '#' + sec.id;
-            a.textContent = h2.textContent.replace(/\\s+#$/, '');
-            toc.appendChild(a);
-        });
+    <main class="article">
+        <section class="panel" id="overview">
+            <h2>Overview <a class="anchor" href="#overview">🧙🏽‍♀️</a></h2>
+            <p>Deep within Poyo's Potion Factory, dozens of enchanted cauldrons bubble away, collecting potions from
+                brewing towers spread across the facility. Each cauldron fills at its own pace before courier witches
+                swoop in to haul the precious brews to the Enchanted Market. Every collection is logged using Potion
+                Transport Tickets detailing how much potion was collected and when the journey finished.</p>
+            <p>But lately, something's amiss! Potion volumes don't quite match the transport tickets, and rumors of
+                unlogged potion drains are spreading through the halls.</p>
+            <p>Your task is to develop a real-time Potion Flow Monitoring Dashboard that tracks potion levels across all
+                cauldrons, identifies collection events, and checks the Potion Transport Tickets to detect any missing
+                or unlogged potion. The system should automatically flag inconsistencies, identify suspicious activity,
+                and help ensure every drop of potion is properly accounted for.</p>
+            <p>You'll receive historical and real-time cauldron level data, Potion Transport Ticket records, and a map
+                of the potion network linking each cauldron to the Enchanted Market. Use these to visualize the entire
+                operation, monitor live potion flows, and test your real-time detection logic.</p>
+            <div class="callout">
+                <strong>✨ Bonus:</strong> Extend your system to forecast brew levels and optimize courier routes —
+                helping witches plan efficient pickup schedules, prevent cauldron overflows, and keep the potion trade
+                flowing smoothly across the realm.
+            </div>
+        </section>
 
-        // Highlight current section in TOC
-        const tocLinks = Array.from(toc.querySelectorAll('a'));
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(e => {
-                if (e.isIntersecting) {
-                    tocLinks.forEach(l => l.classList.remove('current'));
-                    const active = tocLinks.find(l => l.getAttribute('href') === '#' + e.target.id);
-                    if (active) active.classList.add('current');
-                }
-            });
-        }, { rootMargin: '-40% 0px -50% 0px', threshold: 0 });
-        sections.forEach(s => observer.observe(s));
+        <section class="panel" id="additional-information">
+            <h2>Additional Information <a class="anchor" href="#additional-information">📌</a></h2>
 
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(a => {
-            a.addEventListener('click', (ev) => {
-                const id = a.getAttribute('href').slice(1);
-                const el = document.getElementById(id);
-                if (el) {
-                    ev.preventDefault();
-                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    history.pushState(null, '', '#' + id);
-                }
-            });
-        });
-    </script>
+            <h3 id="input-data">Input Data <a class="anchor" href="#input-data"></a></h3>
+            <ul>
+                <li><strong>List of Cauldrons</strong>: Each cauldron has a unique ID, a name, a latitude/longitude, and
+                    a maximum storage volume.
+                </li>
+                <li><strong>Potion Network Map</strong>: Includes all cauldrons as nodes with their locations, and edges
+                    representing broomstick travel paths with travel times. The map also contains the Enchanted Market.
+                    This map is used to find an optimized schedule for the witches to ensure no cauldron ever overflows,
+                    accounting for the travel time between cauldrons and to the Enchanted Market.
+                </li>
+                <li><strong>Potion Transport Tickets</strong>: Tickets are received at the end of each day and contain
+                    only a date. Each ticket records the amount of potion collected and transported.
+                </li>
+                <li><strong>Historical Cauldron Level Data</strong>: Minute-by-minute potion volumes for each cauldron,
+                    covering approximately one week. This data shows how potion levels change over time, including the
+                    effects of continuous filling and periodic draining.
+                </li>
+            </ul>
+        </section>
+
+        <section class="panel" id="expected-output">
+            <h2>Expected Output <a class="anchor" href="#expected-output">🎯</a></h2>
+            <ul>
+                <li><strong>Visualization of the Potion Network</strong>: A map displaying all cauldrons, potion levels,
+                    and the sales point.
+                </li>
+                <li><strong>Historic Data Playback</strong>: Ability to review historical potion levels and transport
+                    ticket activity.
+                </li>
+                <!-- <li><strong>Real-Time Monitoring</strong>: Live feed of potion levels in all cauldrons as new data arrives.</li> -->
+                <li><strong>Discrepancy Detection</strong>: Since tickets arrive at the end of the day with only dates
+                    (no timestamps), you must match tickets to the actual drain events that occurred during that day.
+                    Verify that the volumes on the tickets match the drains for that day by comparing ticket volumes
+                    (which include level change + potion generated during drain) to the actual drain events recorded in
+                    the historical data. Identify any tickets that appear to have transported more or less than what
+                    left the cauldron, highlighting potential unlogged potion drains or discrepancies.
+                </li>
+            </ul>
+        </section>
+
+        <section class="panel" id="considerations">
+            <h2>Things to Keep in Mind <a class="anchor" href="#considerations">🤔</a></h2>
+            <ul>
+                <li><strong>Continuous Potion Flow During Drainage</strong>: While potion is being drained from a
+                    cauldron, more potion continues to accumulate into the tank at the cauldron's fill rate. This means
+                    the total volume collected includes both the level change and the potion generated during the drain
+                    period.
+                </li>
+                <li><strong>Unload Time</strong>: Witches take 15 minutes to unload each time they arrive at the market.
+                    This must be accounted for when scheduling multiple trips.
+                </li>
+                <li><strong>Per-Cauldron Rates</strong>: Each cauldron has its own unique fill rate and drain rate,
+                    which can differ significantly between cauldrons. These rates determine how quickly potion
+                    accumulates and how quickly it can be collected.
+                </li>
+            </ul>
+        </section>
+
+        <section class="panel" id="bonus-output">
+            <h2>Bonus Output <a class="anchor" href="#bonus-output">🌟🥇</a></h2>
+            <p><strong>Optimized Courier Routes &amp; Forecasting</strong>: Using the potion network map, determine what
+                is the minimum number of witches that can run the whole operation. Predict cauldron fill levels and
+                generate efficient courier routes that prevent overflow while accounting for all these factors. Create
+                an optimal schedule for the minimum number of witches required to maintain the entire operation.
+                Visualize these routes on the map to ensure timely deliveries and prevent cauldron overflow.</p>
+        </section>
+
+        <section class="panel" style="text-align:center;">
+            <a class="btn" href="/swagger" style="margin-top:1rem;">🚀 Get Started Here</a>
+        </section>
+    </main>
+
+    <div class="footer">
+        <p>© <strong>EOG Resources, Inc.</strong> • <span id="year"></span> Cauldron Watch</p>
+    </div>
+</div>
+
 </body>
 </html>

@@ -373,8 +373,8 @@ html, body {
     }
 
     .badge {
-        background: rgb(10 7 53 / 12%);
-        color: #4d8d97;
+        background: rgb(88 66 129);
+        color: #0edfd4;
     }
 
     .callout strong {
@@ -391,7 +391,12 @@ html, body {
     }
 
     header.hero::after {
-
         background: none;
+    }
+
+    .btn.secondary {
+        border-color: rgba(255, 255, 255, .12);
+        background: linear-gradient(180deg, #4d2f7e, #6e5d89);
+        color: #fff;
     }
 }

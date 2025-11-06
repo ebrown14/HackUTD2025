@@ -20,7 +20,13 @@
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
-      <Content Update="wwwroot\STANDARD_STACKED_LOGO_WHITE.svg">
+      <Content Update="wwwroot\images\favicon.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\images\STANDARD_STACKED_LOGO_RED_AND_BLACK.svg">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\images\STANDARD_STACKED_LOGO_WHITE.svg">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
     </ItemGroup>

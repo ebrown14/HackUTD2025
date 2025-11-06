@@ -3,6 +3,7 @@
 <head>
     <link rel="stylesheet" href="css/index.css">
     <script src="js/index.js" defer></script>
+    <link rel="icon" href="images/favicon.png">
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>CauldronWatch: The Potion Flow Monitoring Challenge</title>
@@ -17,11 +18,16 @@
 
 <div class="container">
     <div class="svg-banner">
-        <img src="STANDARD_STACKED_LOGO_WHITE.svg" alt="CauldronWatch Logo"/>
+	    <picture>
+		    <!-- Use darker logo in light mode -->
+		    <source srcset="/images/STANDARD_STACKED_LOGO_RED_AND_BLACK.svg" media="(prefers-color-scheme: light)">
+		    <!-- Fallback (dark mode) -->
+		    <img src="/images/STANDARD_STACKED_LOGO_WHITE.svg" alt="CauldronWatch Logo" />
+	    </picture>
     </div>
     <header class="hero">
         <div class="hero-image">
-            <img src="image.png" alt="CauldronWatch Banner"/>
+            <img src="images/banner.png" alt="CauldronWatch Banner"/>
         </div>
         <span class="badge">🧪 Challenge</span>
         <h1>CauldronWatch: The Potion Flow Monitoring Challenge</h1>

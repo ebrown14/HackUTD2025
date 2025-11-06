@@ -14,21 +14,6 @@
     --radius: 16px;
 }
 
-@media (prefers-color-scheme: light) {
-    :root {
-        --bg: #f8fafc;
-        --panel: #ffffff;
-        --panel-2: #f1f5f9;
-        --text: #0f172a;
-        --muted: #475569;
-        --ring: rgba(99, 102, 241, .25);
-    }
-
-    body {
-        background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
-    }
-}
-
 * {
     box-sizing: border-box
 }
@@ -153,7 +138,7 @@ header.hero::after {
     filter: brightness(1.15);
     transform: translateY(-1px);
     box-shadow: 0 4px 20px rgba(139, 92, 246, .3);
-    transition: all .15s ease
+    transition: all .15s ease;
 }
 
 .toc {
@@ -215,14 +200,14 @@ section.panel:hover {
     box-shadow: 0 16px 36px rgba(0, 0, 0, .6), 0 0 0 1px rgba(139, 92, 246, .25)
 }
 
-section.panel::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    background: radial-gradient(circle at top left, rgba(139, 92, 246, .08), transparent 60%)
-}
+    section.panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        pointer-events: none;
+        background: radial-gradient(circle at top left, rgb(251 250 255 / 8%), transparent 40%), radial-gradient(circle at bottom right, rgb(255 255 255 / 8%), transparent 40%);
+    }
 
 section.panel:focus-within {
     transform: translateY(-2px);
@@ -356,14 +341,6 @@ html, body {
     background-image: none !important;
 }
 
-/* Ensure light-mode override doesn't reapply gradients */
-@media (prefers-color-scheme: light) {
-    html, body {
-        background: var(--panel-2) !important;
-        background-image: none !important;
-    }
-}
-
 .cta-panel {
     display: grid;
     place-items: center;
@@ -371,3 +348,50 @@ html, body {
     text-align: center;
 }
 .cta-panel .btn { margin-top: 0; }
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg: #f8fafc;
+        --panel: #ffffff;
+        --panel-2: #f1f5f9;
+        --text: #0f172a;
+        --muted: #475569;
+        --ring: rgba(99, 102, 241, .25);
+    }
+
+    body {
+        background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+    }
+
+    section.panel h2 {
+        color: #1f2937; /* slate-800 */
+    }
+
+    .callout {
+        background: linear-gradient(180deg, rgb(78 0 255 / 15%), rgb(2 0 255 / 8%));
+        color: #2b2f5b;
+    }
+
+    .badge {
+        background: rgb(10 7 53 / 12%);
+        color: #4d8d97;
+    }
+
+    .callout strong {
+        color: #000000;
+    }
+
+    html, body {
+        background: var(--panel-2) !important;
+        background-image: none !important;
+    }
+
+    section.panel::before {
+        background: radial-gradient(circle at top left, rgba(139, 92, 246, .08), transparent 60%), radial-gradient(circle at bottom right, rgba(139, 92, 246, .08), transparent 20%);
+    }
+
+    header.hero::after {
+
+        background: none;
+    }
+}

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO.Compression;
 using System.Text.Json;
 
@@ -14,10 +15,23 @@ builder.Services.AddSerilog((services, loggerConfiguration) => loggerConfigurati
     .WriteTo.Async(a => a.Console())
     .Enrich.FromLogContext());
 
-var data = await ReadHistoricalDataAsync();
-var metadata = await ReadMetadataAsync();
-var dtos = await ReadDataAsync();
-var tickets = await ReadTicketDataAsync();
+Stopwatch sp = Stopwatch.StartNew();
+
+var dataTask = ReadHistoricalDataAsync();
+var metadataTask = ReadMetadataAsync();
+var dtosTask = ReadDataAsync();
+var ticketsTask = ReadTicketDataAsync();
+
+await Task.WhenAll(dataTask, metadataTask, dtosTask, ticketsTask);
+
+sp.Stop();
+Console.WriteLine("Data loaded in {0}.", sp.Elapsed);
+
+var data = dataTask.Result;
+var metadata = metadataTask.Result;
+var dtos = dtosTask.Result;
+var tickets = ticketsTask.Result;
+
 
 var graph = new NodeGraph([.. dtos.cauldrons, dtos.enchanted_market], dtos.network.edges);
 
@@ -60,13 +74,6 @@ builder.Logging.AddSerilog();
 
 var app = builder.Build();
 
-
-// Diagnostic logging middleware - run early so all requests are visible.
-app.Use(async (context, next) => {
-    app.Logger.LogInformation("Received request: {Method} {Path}{Query}", context.Request.Method, context.Request.Path, context.Request.QueryString);
-    await next();
-});
-
 app.UseResponseCompression();
 
 app.UseRouting();
@@ -89,7 +96,7 @@ app.MapFallbackToFile("index.html");
 
 app.Run();
 
-async ValueTask<IEnumerable<HistoricalDataDto>> ReadHistoricalDataAsync()
+async Task<IEnumerable<HistoricalDataDto>> ReadHistoricalDataAsync()
 {
     using StreamReader reader = new("Data/testhistorical_data 2.json");
 
@@ -98,27 +105,27 @@ async ValueTask<IEnumerable<HistoricalDataDto>> ReadHistoricalDataAsync()
     return data ?? throw new Exception("Where's our data???");
 }
 
-async ValueTask<HistoricalDataMetadataDto> ReadMetadataAsync()
+async Task<HistoricalDataMetadataDto> ReadMetadataAsync()
 {
-    using StreamReader reader = new("Data/testhistorical_metadata.json");
+    using StreamReader reader = new("Data/testhistorical_metadata 2.json");
 
     var data = await JsonSerializer.DeserializeAsync<HistoricalDataMetadataDto?>(reader.BaseStream);
 
     return data ?? throw new Exception("Where's our history metadata???");
 }
 
-async ValueTask<RootDto> ReadDataAsync()
+async Task<RootDto> ReadDataAsync()
 {
-    using StreamReader reader = new("Data/testcauldrons 2.json");
+    using StreamReader reader = new("Data/testcauldrons 1.json");
 
     var data = await JsonSerializer.DeserializeAsync<RootDto>(reader.BaseStream);
 
     return data ?? throw new Exception("Where's our cauldron data???");
 }
 
-async ValueTask<TicketsDto> ReadTicketDataAsync()
+async Task<TicketsDto> ReadTicketDataAsync()
 {
-    using StreamReader reader = new("Data/testtransport_tickets-1 1.json");
+    using StreamReader reader = new("Data/testtransport_tickets 2.json");
 
     var data = await JsonSerializer.DeserializeAsync<TicketsDto>(reader.BaseStream);
 

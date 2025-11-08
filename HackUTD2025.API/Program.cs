@@ -81,6 +81,20 @@ app.UseRouting();
 app.UseSwagger();
 app.UseSwaggerUI(c => {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "HackUTD2025.API V1");
+    c.DocumentTitle = "HackUTD2025 API - Connection Instructions";
+    c.HeadContent = @"
+        <div style='background: #f0f0f0; padding: 15px; margin-bottom: 20px; border-radius: 5px;'>
+            <h3 style='margin-top: 0;'>🔗 How to Connect to the API</h3>
+            <p><strong>Base URL:</strong> <code>https://hackutd2025.eog.systems</code></p>
+            <p><strong>Main Endpoints:</strong></p>
+            <ul>
+                <li><code>GET https://hackutd2025.eog.systems/api/Data</code> - Historical cauldron data</li>
+                <li><code>GET https://hackutd2025.eog.systems/api/Tickets</code> - Transport tickets</li>
+                <li><code>GET https://hackutd2025.eog.systems/api/Information/cauldrons</code> - All cauldrons</li>
+            </ul>
+            <p><strong>Example:</strong> <code>https://hackutd2025.eog.systems/api/Data?start_date=0&end_date=2000000000</code></p>
+        </div>
+    ";
 });
 app.MapOpenApi();
 

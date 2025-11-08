@@ -84,8 +84,13 @@
                 <h3 id="input-data">Input Data <a class="anchor" href="#input-data"></a></h3>
                 <ul>
                     <li>
+                        <strong>API Link</strong>: The base url for the API is at https://hackutd2025.eog.systems/ and the 
+                        link below will detail all the endpoints that can be used to obtain data. The main ones are api/Data 
+                        and api/Tickets!
+                    </li>
+                    <li>
                         <strong>List of Cauldrons</strong>: Each cauldron has a unique ID, a name, a latitude/longitude, and
-                        a maximum storage volume.
+                        a maximum storage volume. 
                     </li>
                     <li>
                         <strong>Potion Network Map</strong>: Includes all cauldrons as nodes with their locations, and edges
@@ -95,12 +100,14 @@
                     </li>
                     <li>
                         <strong>Potion Transport Tickets</strong>: Tickets are received at the end of each day and contain
-                        only a date. Each ticket records the amount of potion collected and transported.
+                        only a date. Each ticket records the amount of potion collected and transported. These can be obtained 
+                        from the API at https://hackutd2025.eog.systems/api/Tickets.
                     </li>
                     <li>
-                        <strong>Historical Cauldron Level Data</strong>: Minute-by-minute potion volumes for each cauldron,
+                        <strong>Cauldron Level Data</strong>: Minute-by-minute potion volumes for each cauldron,
                         covering approximately one week. This data shows how potion levels change over time, including the
-                        effects of continuous filling and periodic draining.
+                        effects of continuous filling and periodic draining. This can be obtained from the API using 
+                        https://hackutd2025.eog.systems/api/Data/?start_date=0&end_date=2000000000. 
                     </li>
                 </ul>
             </section>

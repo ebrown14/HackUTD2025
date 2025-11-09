@@ -24,7 +24,7 @@ public class TicketsController : ControllerBase
     /// Every time a courier witch buys brew and hauls it away, she creates an invoice ticket. <br/>
     /// It will contain the amount purchased, the date, the courier witch's unique id, the cauldron she took it from, and the ticket id. <br/>
     /// Please make sure these ticket are honest and complete because some witches are known to be evil. <br/>
-    /// See (/api/Data) to ensure these tickets are honest.
+    /// See (<a href="https://hackutd2025.eog.systems/api/Data">/api/Data</a>) to ensure these tickets are honest.
     /// </remarks>
     [HttpGet]
     public TicketsDto GetTickets() => _ticketsDto;

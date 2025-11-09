@@ -1,12 +1,11 @@
 using System.Diagnostics;
 using System.IO.Compression;
+using System.Reflection;
 using System.Text.Json;
-
 using HackUTD2025.API.Dtos;
 using HackUTD2025.API.Utilities;
-
 using Microsoft.AspNetCore.ResponseCompression;
-
+using Microsoft.OpenApi.Models;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,7 +48,16 @@ builder.Services.AddSingleton(data);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(o => {
+    o.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "HackUTD2025.API",
+        Version = "v1",
+        Description = "API for HackUTD 2025 - Cauldron Monitoring and Transport System",
+    });
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    o.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
 
 builder.Services.AddResponseCompression(opts => {
     opts.EnableForHttps = true; // compress over HTTPS
@@ -65,9 +73,7 @@ builder.Services.AddResponseCompression(opts => {
 builder.Services.Configure<BrotliCompressionProviderOptions>(o => {
     o.Level = CompressionLevel.Optimal; // fastest small payloads: Fastest
 });
-builder.Services.Configure<GzipCompressionProviderOptions>(o => {
-    o.Level = CompressionLevel.Fastest;
-});
+builder.Services.Configure<GzipCompressionProviderOptions>(o => { o.Level = CompressionLevel.Fastest; });
 
 
 builder.Logging.AddSerilog();
@@ -145,4 +151,3 @@ async Task<TicketsDto> ReadTicketDataAsync()
 
     return data ?? throw new Exception("Where's our ticket data???");
 }
-

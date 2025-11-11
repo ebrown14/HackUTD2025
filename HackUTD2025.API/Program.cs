@@ -102,6 +102,8 @@ app.UseResponseCompression();
 
 app.UseRouting();
 
+app.UseRateLimiter();
+
 app.UseSwagger();
 app.UseSwaggerUI(c => {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "HackUTD2025.API V1");
@@ -120,6 +122,7 @@ app.UseSwaggerUI(c => {
         </div>
     ";
 });
+
 app.MapOpenApi();
 
 app.UseDefaultFiles(new DefaultFilesOptions

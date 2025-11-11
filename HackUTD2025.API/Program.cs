@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.IO.Compression;
 using System.Reflection;
 using System.Text.Json;
+using System.Threading.RateLimiting;
 using HackUTD2025.API.Dtos;
 using HackUTD2025.API.Utilities;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -78,6 +79,23 @@ builder.Services.Configure<GzipCompressionProviderOptions>(o => { o.Level = Comp
 
 builder.Logging.AddSerilog();
 
+builder.Services.AddRateLimiter((options) => {
+    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
+    {
+        return RateLimitPartition.GetFixedWindowLimiter("GlobalLimiter", _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 10, // 300 requests
+            Window = TimeSpan.FromMinutes(1), // per 1 minute
+            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+            QueueLimit = 0
+        });
+    });
+    options.OnRejected = async (context, cancellationToken) =>
+    {
+        context.HttpContext.Response.StatusCode = 429;
+        await context.HttpContext.Response.WriteAsync("Too many requests. Please try again later.", cancellationToken);
+    };
+});
 var app = builder.Build();
 
 app.UseResponseCompression();

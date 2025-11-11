@@ -1,5 +1,6 @@
 using HackUTD2025.API.Dtos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace HackUTD2025.API.Controllers;
 
